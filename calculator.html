@@ -1,47 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>限锻保底计算器</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Simple Calculator</h1>
-    <input type='text' id='result' disabled>
-    <br>
-    <button onclick='clearResult()'>C</button>
-    <button onclick='appendToResult("1")'>1</button>
-    <button onclick='appendToResult("2")'>2</button>
-    <button onclick='appendToResult("3")'>3</button>
-    <button onclick='appendToResult("+")'>+</button>
-    <br>
-    <button onclick='appendToResult("4")'>4</button>
-    <button onclick='appendToResult("5")'>5</button>
-    <button onclick='appendToResult("6")'>6</button>
-    <button onclick='appendToResult("-")'>-</button>
-    <br>
-    <button onclick='appendToResult("7")'>7</button>
-    <button onclick='appendToResult("8")'>8</button>
-    <button onclick='appendToResult("9")'>9</button>
-    <button onclick='appendToResult("\*")'>*</button>
-    <br>
-    <button onclick='appendToResult("0")'>0</button>
-    <button onclick='calculateResult()'>=</button>
-    <button onclick='appendToResult("/")'>/</button>
-    <script>
-        function appendToResult(value) {
-            document.getElementById('result').value += value;
-        }
+    <h1>限锻保底计算器</h1>
+    <form id="calculator">
+        <label for="max-banners">最大卡池抽取次数:</label>
+        <input type="number" id="max-banners" required>
 
-        function clearResult() {
-            document.getElementById('result').value = '';
-        }
+        <label for="min-banners">最低卡池抽取次数:</label>
+        <input type="number" id="min-banners" required>
 
-        function calculateResult() {
-            try {
-                document.getElementById('result').value = eval(document.getElementById('result').value);
-            } catch (e) {
-                document.getElementById('result').value = 'Error';
-            }
-        }
-    </script>
+        <button type="submit">计算</button>
+    </form>
+    <div id="result"></div>
+    <script src="script.js"></script>
 </body>
 </html>
