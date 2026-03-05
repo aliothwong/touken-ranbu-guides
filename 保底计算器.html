@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>刀剑乱舞锻刀保底计算器</title>
+
+<style>
+/* ---------------- CSS ---------------- */
+body{
+  background:#f3f6fb;
+  font-family: "Segoe UI", sans-serif;
+  margin:0;
+  padding:30px;
+}
+
+.container{
+  max-width:500px;
+  margin:auto;
+}
+
+h1{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+h2{
+  margin-top:0;
+  font-size:18px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  align-items:center;
+}
+
+label{
+  color:#444;
+}
+
+input{
+  padding:6px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+.result{
+  text-align:center;
+}
+
+#result{
+  margin-top:10px;
+  line-height:1.6;
+}
+
+.ok{
+  color:#2e8b57;
+  font-weight:bold;
+}
+
+.bad{
+  color:#d33;
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>刀剑乱舞锻刀保底计算器</h1>
+
+<div class="card">
+<h2>资源</h2>
+<div class="grid">
+<label>木炭</label>
+<input id="wood" type="number" value="0">
+<label>玉钢</label>
+<input id="steel" type="number" value="0">
+<label>冷却材</label>
+<input id="cool" type="number" value="0">
+<label>砥石</label>
+<input id="stone" type="number" value="0">
+</div>
+</div>
+
+<div class="card">
+<h2>御札</h2>
+<div class="grid">
+<label>梅</label>
+<input id="ume" type="number" value="0">
+<label>竹</label>
+<input id="take" type="number" value="0">
+<label>松</label>
+<input id="matsu" type="number" value="0">
+<label>富士</label>
+<input id="fuji" type="number" value="0">
+</div>
+</div>
+
+<div class="card result">
+<h2>计算结果</h2>
+<div id="result"></div>
+</div>
+
+</div>
+
+<script>
+/* ---------------- JS ---------------- */
+const PITY = 5000;
+const NORMAL_POINT = 5;
+const COST = 700;
+
+function calc(){
+  let wood = Number(document.getElementById("wood").value);
+  let steel = Number(document.getElementById("steel").value);
+  let cool = Number(document.getElementById("cool").value);
+  let stone = Number(document.getElementById("stone").value);
+
+  let ume = Number(document.getElementById("ume").value);
+  let take = Number(document.getElementById("take").value);
+  let matsu = Number(document.getElementById("matsu").value);
+  let fuji = Number(document.getElementById("fuji").value);
+
+  let ofudaPoint = ume*10 + take*15 + matsu*20 + fuji*60;
+  let remainPoint = PITY - ofudaPoint;
+  if(remainPoint < 0) remainPoint = 0;
+
+  let needDraw = Math.ceil(remainPoint / NORMAL_POINT);
+
+  let maxDrawWood = Math.floor(wood / COST);
+  let maxDrawSteel = Math.floor(steel / COST);
+  let maxDrawCool = Math.floor(cool / COST);
+  let maxDrawStone = Math.floor(stone / COST);
+
+  let maxDraw = Math.min(maxDrawWood, maxDrawSteel, maxDrawCool, maxDrawStone);
+  let canReach = maxDraw >= needDraw;
+
+  document.getElementById("result").innerHTML =
+    "当前御札积分：<b>" + ofudaPoint + "</b><br><br>" +
+    "距离保底还差：<b>" + remainPoint + "</b> 积分<br>" +
+    "需要抽数：<b>" + needDraw + "</b><br><br>" +
+    "资源最多可抽：<b>" + maxDraw + "</b><br><br>" +
+    (canReach ? "<span class='ok'>资源足够到保底</span>" : "<span class='bad'>资源不足到保底</span>");
+}
+
+// 给每个输入框绑定实时计算
+document.querySelectorAll("input").forEach(
+  i => i.addEventListener("input", calc)
+);
+
+// 页面加载时先计算一次
+calc();
+</script>
+
+</body>
+</html>
